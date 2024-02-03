@@ -9,13 +9,6 @@ namespace SozlarJadvali.Brokers.TokenBroker
 {
     public class TokenBroker : ITokeBroker
     {
-        private readonly IConfiguration configuration;
-
-        public TokenBroker(IConfiguration configuration)
-        {
-            this.configuration = configuration;
-        }
-
         public UserToken GenerateJWTToken(Admin admin)
         {
             var claims = new List<Claim>
@@ -24,7 +17,7 @@ namespace SozlarJadvali.Brokers.TokenBroker
                 new Claim(ClaimTypes.Role,"Admin"),
             };
 
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Jwt:Key").Value));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("48sd4v89d4v941-A984sv98d4v9805E-7045C855BA22r4g98s4g9es8sdg8d49g"));
 
             var signingCred = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512);
 

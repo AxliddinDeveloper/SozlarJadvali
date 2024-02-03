@@ -14,6 +14,8 @@ namespace SozlarJadvali.Services.Words
 
         public async ValueTask<Word> AddWordAsync(Word word)
         {
+            word.Id = Guid.NewGuid();
+
             Word word2= new Word
             {
                 Id = word.Id,

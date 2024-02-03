@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using RESTFulSense.Controllers;
@@ -20,6 +21,7 @@ namespace SozlarJadvali.Controllers
 
         [HttpPost("Add-Word")]
         [Authorize]
+        [EnableCors("AllowSpecificOrigin")]
         public async ValueTask<ActionResult<Word>> PostWord(Word word)
         {
             return await this.wordService.AddWordAsync(word);
@@ -27,6 +29,7 @@ namespace SozlarJadvali.Controllers
 
         [HttpGet("Get-All-Words")]
         [EnableQuery]
+        [EnableCors("AllowSpecificOrigin")]
         public ActionResult<Word> GetAllWords()
         {
             IQueryable<Word> AllWords =
@@ -37,6 +40,7 @@ namespace SozlarJadvali.Controllers
 
         [HttpPut("Update-Word")]
         [Authorize]
+        [EnableCors("AllowSpecificOrigin")]
         public async ValueTask<ActionResult<Word>> PutWord(Word word)
         {
             return await this.wordService.ModifyWordAsync(word);
@@ -44,9 +48,13 @@ namespace SozlarJadvali.Controllers
 
         [HttpDelete("Delete-Word")]
         [Authorize]
-        public async ValueTask<ActionResult<Word>> DeleteWord(Word word)
+        [EnableCors("AllowSpecificOrigin")]
+        public async ValueTask<ActionResult<Word>> DeleteWord(Guid id)
         {
-            return await this.wordService.RemoveWordAsync(word);
+            Word selectedWord =
+                await this.wordService.RetrieveWordByIdAsync(id);
+
+            return await this.wordService.RemoveWordAsync(selectedWord);
         }
     }
 }

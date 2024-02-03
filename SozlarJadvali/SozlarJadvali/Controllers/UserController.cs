@@ -35,9 +35,12 @@ namespace SozlarJadvali.Controllers
 
         [HttpDelete("Delete-User")]
         [Authorize]
-        public async ValueTask<ActionResult<User>> DeleteUser(User user)
+        public async ValueTask<ActionResult<User>> DeleteUser(Guid id)
         {
-            return await this.userService.RemoveUserAsync(user);
+            User selectedUser = 
+                await this.userService.RetrieveUserByIdAsync(id);
+
+            return await this.userService.RemoveUserAsync(selectedUser);
         }
     }
 }
