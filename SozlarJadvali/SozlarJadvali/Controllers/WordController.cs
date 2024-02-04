@@ -21,9 +21,19 @@ namespace SozlarJadvali.Controllers
 
         [HttpPost("Add-Word")]
         [Authorize]
-        public async ValueTask<ActionResult<Word>> PostWord(Word word)
+        public async ValueTask<ActionResult<Word>> PostWord(List<Word> words)
         {
-            return await this.wordService.AddWordAsync(word);
+            if (words == null || words.Count == 0)
+            {
+                return BadRequest("No words provided");
+            }
+
+            foreach (var word in words)
+            {
+                await this.wordService.AddWordAsync(word);
+            }
+
+            return Ok(words);
         }
 
         [HttpGet("Get-All-Words")]
